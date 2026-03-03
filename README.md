@@ -1,61 +1,112 @@
-# OPC UA Client Library
+# 🚀 OPC UA Tools
 
-基于 node-opcua 的简单 OPC UA 客户端库，用于连接和操作 OPC UA 服务器。
+[![npm version](https://img.shields.io/npm/v/@jm-slt/opcua-tools)](https://www.npmjs.com/package/@jm-slt/opcua-tools)
+[![Node.js](https://img.shields.io/node/v/@jm-slt/opcua-tools)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/npm/l/@jm-slt/opcua-tools)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/JM-SLT/opcua-projects)](https://github.com/JM-SLT/opcua-projects/stargazers)
 
-## 安装
+> Comprehensive OPC UA toolkit for Node.js - Client, Server, and Utilities
+
+## 📦 安装
 
 ```bash
-npm install @jm-slt/opcua-client
+npm install @jm-slt/opcua-tools
 ```
 
-## 使用方法
+## ✨ 特性
+
+- 🔌 **OPC UA 客户端** - 连接、读取、写入、订阅服务器
+- 🖥️ **OPC UA 服务器** - 快速创建自己的 OPC UA 服务器
+- 🛠️ **工具函数** - 批量读取、节点浏览、端点发现
+- 🐳 **Docker 支持** - 一键启动服务器和客户端
+- 📡 **实时监控** - 订阅数据变化，实时响应
+
+## 🚀 快速开始
+
+### 1. 连接到 OPC UA 服务器
 
 ```javascript
-const { connect, readNode, browseNodes, disconnect } = require('@jm-slt/opcua-client');
+const { quickConnect, readMultipleNodes } = require('@jm-slt/opcua-tools');
 
 async function main() {
-  // 连接 OPC UA 服务器
-  const { client, session } = await connect('opc.tcp://localhost:4840');
+  // 快速连接
+  const { client, session } = await quickConnect('opc.tcp://localhost:4840');
   
-  // 读取节点值
-  const value = await readNode(session, 'ns=0;i=2258');
-  console.log('Value:', value);
+  // 读取多个节点
+  const results = await readMultipleNodes(session, [
+    'ns=0;i=2258',  // ServerStatus
+    'ns=0;i=2261'   // ServerName
+  ]);
   
-  // 浏览节点树
-  const nodes = await browseNodes(session);
-  console.log('Nodes:', nodes);
+  console.log(results);
   
-  // 断开连接
-  await disconnect(client, session);
+  await session.close();
+  await client.disconnect();
 }
 
 main();
 ```
 
-## API
+### 2. 创建 OPC UA 服务器
 
-### connect(endpointUrl)
-连接到 OPC UA 服务器，返回 { client, session }
+```javascript
+const { createServer } = require('@jm-slt/opcua-tools/server');
 
-### readNode(session, nodeId)
-读取指定节点的值
+createServer().then(server => {
+  console.log('Server running on opc.tcp://localhost:4840');
+});
+```
 
-### writeNode(session, nodeId, value, dataType)
-写入节点值
+### 3. 使用 Docker
 
-### browseNodes(session, nodeId)
-浏览节点树
+```bash
+# 启动服务器和客户端
+docker-compose up
 
-### subscribeNodes(session, nodeIds, callback)
-订阅节点变化
+# 仅启动服务器
+npm run docker:server
 
-### disconnect(client, session)
-断开连接
+# 仅启动客户端
+npm run docker:client
+```
 
-## 示例
+## 📖 API 文档
 
-更多示例见 [examples](./examples) 目录。
+### 客户端函数
 
-## 许可证
+| 函数 | 说明 |
+|------|------|
+| `quickConnect(endpoint, options)` | 快速连接到 OPC UA 服务器 |
+| `readMultipleNodes(session, nodeIds)` | 批量读取多个节点 |
+| `discoverEndpoints(endpoint)` | 发现服务器端点 |
+| `browseTree(session, rootNodeId, depth)` | 浏览节点树 |
 
-MIT
+### 服务器函数
+
+| 函数 | 说明 |
+|------|------|
+| `createServer(options)` | 创建 OPC UA 服务器 |
+| `addVariable(addressSpace, name, nodeId, value, dataType)` | 添加变量节点 |
+| `addSensor(addressSpace, name, nodeId, config)` | 添加模拟传感器 |
+
+## 🔗 相关资源
+
+- [node-opcua 官方文档](https://node-opcua.github.io/)
+- [OPC Foundation](https://opcfoundation.org/)
+- [OPC UA 规范](https://opcfoundation.org/developer-tools/specifications-opc-ua-information-model)
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📄 许可证
+
+MIT License - 详见 [LICENSE](LICENSE)
+
+---
+
+<div align="center">
+
+⭐ Star 此项目以表示支持！
+
+</div>

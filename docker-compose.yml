@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  opcua-server:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "4840:4840"
+    command: node opcua-server.js
+    networks:
+      - opcua-net
+
+  opcua-client:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    depends_on:
+      - opcua-server
+    command: node opcua-client.js --read-status
+    networks:
+      - opcua-net
+
+networks:
+  opcua-net:
+    driver: bridge

@@ -1,10 +1,15 @@
 {
-  "name": "@jm-slt/opcua-client",
+  "name": "@jm-slt/opcua-tools",
   "version": "1.0.0",
-  "description": "Simple OPC UA client library for Node.js",
-  "main": "opcua-client.js",
+  "description": "Comprehensive OPC UA toolkit for Node.js - Client, Server, and Utilities",
+  "main": "opcua-utils.js",
   "scripts": {
-    "test": "node opcua-client.js"
+    "server": "node opcua-server.js",
+    "client": "node opcua-client.js",
+    "test": "node opcua-client.js",
+    "docker:up": "docker-compose up",
+    "docker:server": "docker-compose up opcua-server",
+    "docker:client": "docker-compose up opcua-client"
   },
   "keywords": [
     "opcua",
@@ -12,18 +17,26 @@
     "ua",
     "iot",
     "industrial",
-    "automation"
+    "automation",
+    "client",
+    "server",
+    "m2m"
   ],
   "author": "JM-SLT",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JM-SLT/opcua-projects"
+    "url": "git+https://github.com/JM-SLT/opcua-projects.git"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
     "node-opcua": "^2.163.1"
-  }
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/JM-SLT/opcua-projects/issues"
+  },
+  "homepage": "https://github.com/JM-SLT/opcua-projects#readme"
 }
